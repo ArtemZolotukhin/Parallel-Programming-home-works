@@ -2,7 +2,7 @@
 
 ## OpenMP
 
-Programs programs are written in C++
+Programs are written in C++
 
 ### Compilation (Linux)
 
