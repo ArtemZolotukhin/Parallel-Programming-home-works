@@ -1,6 +1,5 @@
 #include <iostream>
 #include <omp.h>
-#include <unistd.h>
 #include <cstdlib>
 
 using namespace std;
