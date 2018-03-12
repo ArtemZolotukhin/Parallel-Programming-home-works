@@ -33,7 +33,7 @@ int main() {
     cout << "After first parallel block: a = " << a << "; b = " << b << endl;
 
     omp_set_num_threads(2);
-    #pragma omp parallel shared(a) firstprivate(b)
+    #pragma omp parallel shared(a) private(b)
     {
 
         unsigned int thread_num = omp_get_thread_num();
