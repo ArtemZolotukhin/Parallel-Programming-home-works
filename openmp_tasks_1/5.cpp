@@ -6,7 +6,7 @@ using namespace std;
 
 #define N 6
 #define M 8
-#define NUM_THREADS 4
+#define NUM_THREADS 3
 
 int main() {
 
@@ -22,8 +22,9 @@ int main() {
         }
         cout << endl;
     }
-
-    #pragma omp sections
+    
+    
+    #pragma omp parallel sections
     {
         #pragma omp section
         {
@@ -34,8 +35,7 @@ int main() {
                 }
             }
             average /= N * M;
-            cout << "Hello, I'm thread number " << omp_get_thread_num() << endl
-            << "Average = " << average << endl;
+            printf("Hello, I'm thread number %d. Average = %d\n", omp_get_thread_num(), average);
 
 
         }
@@ -53,8 +53,8 @@ int main() {
                     }
                 }
             }
-            cout << "Hello, I'm thread number " << omp_get_thread_num() << endl
-            << "Min = " << min << "; Max = " << max << endl;
+            printf("Hello, I'm thread number %d; Min = %d; Max = %d\n", omp_get_thread_num(), min, max);
+            
         }
         #pragma omp section
         {
@@ -66,8 +66,8 @@ int main() {
                     }
                 }
             }
-            cout << "Hello, I'm thread number " << omp_get_thread_num() << endl
-            << "Multiple three count = " << multiple_three_count << endl;
+            printf("Hello, I'm thread number %d\n; Multiple three count = ", omp_get_thread_num(), multiple_three_count);
+            
         }
     }
 

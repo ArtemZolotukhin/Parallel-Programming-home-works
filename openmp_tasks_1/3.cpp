@@ -25,8 +25,9 @@ int main() {
         **/
         usleep(100 * thread_num);
 
-        a += omp_get_num_threads();
-        b += omp_get_num_threads();
+        a += omp_get_thread_num();
+        b += omp_get_thread_num();
+        
         cout << "Inside first parallel block at " << thread_num << " thread: a = " << a << "; b = " << b << endl;
 
     }
