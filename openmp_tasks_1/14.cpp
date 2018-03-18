@@ -16,7 +16,7 @@ int main() {
 
     #pragma omp parallel for reduction(+:result)
     for (int i = 0; i < N; i ++) {
-        result += 2 * i + 1;
+        result = result + 2 * i + 1;
     }
 
     printf("%d\n", result);

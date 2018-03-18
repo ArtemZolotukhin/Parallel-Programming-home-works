@@ -21,7 +21,7 @@ int main() {
     #pragma omp parallel for reduction(+:result)
     for (int i = 0; i < BIN_LENGTH; i++) {
         if (a[i] == 1) {
-            result += pow(2, BIN_LENGTH - i - 1);
+            result = result + pow(2, BIN_LENGTH - i - 1);
         }
     }
 

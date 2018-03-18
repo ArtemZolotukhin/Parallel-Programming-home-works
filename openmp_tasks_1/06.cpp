@@ -24,8 +24,8 @@ int main() {
 
     #pragma omp parallel for reduction(+:average_a, average_b)
     for (int i = 0; i < N; i++) {
-        average_a += a[i];
-        average_b += b[i];
+        average_a = average_a + a[i];
+        average_b = average_b + b[i];
     }
 
     average_a /= N;
