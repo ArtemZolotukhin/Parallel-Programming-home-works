@@ -1,5 +1,6 @@
 #include <iostream>
 #include <omp.h>
+#include <limits>
 
 using namespace std;
 
@@ -19,8 +20,8 @@ int main() {
         b[i] = i;
     }
 
-    int min_a = INT8_MAX;
-    int max_b = INT8_MIN;
+    int min_a = numeric_limits<int>::max();
+    int max_b = numeric_limits<int>::min();
 
     #pragma omp parallel
     {

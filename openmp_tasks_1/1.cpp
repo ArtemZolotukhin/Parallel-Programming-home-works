@@ -1,7 +1,6 @@
 #include <iostream>
 #include <omp.h>
-
-using namespace std;
+#include <stdio.h>
 
 #define NUM_THREADS 8
 
@@ -12,8 +11,7 @@ int main() {
 
     #pragma omp parallel
     {
-        cout << "Hello, I'm thread number " <<
-        omp_get_thread_num() << " of " << omp_get_num_threads() << endl;
+        printf("Hello, I'm thread number %d of %d\n", omp_get_thread_num(), omp_get_num_threads() - 1);
         
     }
 

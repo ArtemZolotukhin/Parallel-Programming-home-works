@@ -1,7 +1,7 @@
-#include <iostream>
+#include <stdio.h>
 #include <omp.h>
 
-using namespace std;
+
 int main() {
     omp_set_dynamic(0); // not change number of threads when running
 
@@ -11,8 +11,7 @@ int main() {
     #pragma omp parallel if (num_threads > 1)
     if (num_threads > 1)
     {
-        cout << "Hello, I'm thread number " <<
-        omp_get_thread_num() << " of " << omp_get_num_threads() << endl;
+        printf("Hello, I'm thread number %d of %d\n", omp_get_thread_num(), omp_get_num_threads() - 1);
     }
 
     num_threads = 1;
@@ -21,8 +20,7 @@ int main() {
     #pragma omp parallel if (num_threads > 1)
     if (num_threads > 1)
     {
-        cout << "Hello, I'm  thread number " <<
-        omp_get_thread_num() << " of " << omp_get_num_threads() <<  ", BUT I AM DEAD!" << endl;
+        printf("ANTIHello, I'm thread number %d of %d\n", omp_get_thread_num(), omp_get_num_threads() - 1);
     }
     return 0;
 }

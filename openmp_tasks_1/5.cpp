@@ -1,6 +1,8 @@
 #include <iostream>
 #include <omp.h>
 #include <cstdlib>
+#include <stdio.h>
+#include <limits>
 
 using namespace std;
 
@@ -41,8 +43,8 @@ int main() {
         }
         #pragma omp section
         {
-            int max = INT8_MIN;
-            int min = INT8_MAX;
+            int max = numeric_limits<int>::min();
+            int min = numeric_limits<int>::max();
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
                     if (d[i][j] > max) {
@@ -66,7 +68,7 @@ int main() {
                     }
                 }
             }
-            printf("Hello, I'm thread number %d\n; Multiple three count = ", omp_get_thread_num(), multiple_three_count);
+            printf("Hello, I'm thread number %d;\n; Multiple three count = %d\n", omp_get_thread_num(), multiple_three_count);
             
         }
     }

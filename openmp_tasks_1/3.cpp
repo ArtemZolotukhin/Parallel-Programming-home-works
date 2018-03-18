@@ -1,6 +1,6 @@
 #include <iostream>
 #include <omp.h>
-#include <unistd.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -11,42 +11,33 @@ int main() {
     a = 5;
     b = 5;
 
-    cout << "Before first parallel block: a = " << a << "; b = " << b << endl;
+    printf("Before first parallel block: a = %d; b = %d\n", a, b);
 
     omp_set_num_threads(4);
     #pragma omp parallel private(a) firstprivate(b)
     {
-        unsigned int thread_num = omp_get_thread_num();
-
-        /* Sleep for right output without collision.
-         * Now the parallel has lost all meaning, but our target learn how work "private",
-         * "firstprivate" and may be other things with variables in this
-         * example
-        **/
-        usleep(100 * thread_num);
+        int thread_num = omp_get_thread_num();
 
         a += omp_get_thread_num();
         b += omp_get_thread_num();
         
-        cout << "Inside first parallel block at " << thread_num << " thread: a = " << a << "; b = " << b << endl;
+        printf("Inside first parallel block at %d thread: a = %d; b = %d\n", thread_num, a, b);
 
     }
-    cout << "After first parallel block: a = " << a << "; b = " << b << endl;
+    printf("After first parallel block: a = %d; b = %d\n", a, b);
 
     omp_set_num_threads(2);
     #pragma omp parallel shared(a) private(b)
     {
 
-        unsigned int thread_num = omp_get_thread_num();
-        //Sleep again
-        usleep(100 * thread_num);
+        int thread_num = omp_get_thread_num();
 
         a -= omp_get_thread_num();
         b -= omp_get_thread_num();
 
-        cout << "Inside second parallel block at " << thread_num << " thread: a = " << a << "; b = " << b << endl;
+        printf("Inside second parallel block at %d thread: a = %d; b = %d\n", thread_num, a, b);
 
     }
-    cout << "After second parallel block: a = " << a << "; b = " << b << endl;
+    printf("After second parallel block: a = %d; b = %d\n", a, b);
     return 0;
 }
