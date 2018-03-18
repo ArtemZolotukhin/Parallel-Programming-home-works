@@ -90,7 +90,7 @@ int* multiplyMatrixByVector(int ** matrix, int * vector, int rows, int columns, 
     return a;
 }
 
-int ** create2DArray(int rows, int columns) {
+int ** create2DArray(int rows, int columns) {gege
     int **matrix = new int*[rows];
     for (int i = 0; i < rows; i++) {
         matrix[i] = new int[columns];
