@@ -1,4 +1,4 @@
-# Parallel Programming home works
+# Sphere Monte-Carlo
 
 This programm calculate count of random points inside sphere in different dimensions
 
