@@ -33,15 +33,15 @@ int main() {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLUMNS; j++) {
 
-            if (d[i][j] > max) {
-                #pragma omp critical
-                {
+            #pragma omp critical
+            {
+                if (d[i][j] > max) {
                     max = d[i][j];
                 }
             }
-            if (d[i][j] < min) {
-                #pragma omp critical
-                {
+            #pragma omp critical
+            {
+                if (d[i][j] < min) {
                     min = d[i][j];
                 }
             }

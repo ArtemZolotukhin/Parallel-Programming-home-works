@@ -28,9 +28,9 @@ int main() {
     #pragma omp parallel for shared(max)
     for (int i = 0; i < SIZE; i++) {
         if (a[i] % DIVIDER == 0) {
-            if (a[i] > max) {
-                #pragma omp critical
-                {
+            #pragma omp critical
+            {
+                if (a[i] > max) {
                     max = a[i];
                 }
             }
