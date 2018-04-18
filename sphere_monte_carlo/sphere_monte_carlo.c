@@ -6,7 +6,7 @@
 
 #define DIMENSION_COUNT 20
 #define SPHERE_RADIUS 1
-#define POINT_COUNT 1000000000
+#define POINT_COUNT 10000000
 #define THREADS 4
 
 
@@ -17,7 +17,8 @@ double sqr(double a) {
 int * calculateNumberOfRandomPointsInsideSphereForDifferentDimensions(int pointCount, double radius, int numberDimensions, int isParallel)
 { 
 
-    
+    srand(time(NULL));
+
     int * numberOfPointsInside = malloc(numberDimensions * sizeof(int));
     
     for (int i = 0; i < numberDimensions; i++) {
@@ -27,13 +28,17 @@ int * calculateNumberOfRandomPointsInsideSphereForDifferentDimensions(int pointC
     double sumOfSquaresOfVectorValues;
     
     double sqrRadius = radius * radius;
-    
-#pragma omp parallel for private(sumOfSquaresOfVectorValues) firstprivate(sqrRadius, radius, numberDimensions, pointCount) reduction(+:numberOfPointsInside[:numberDimensions]) if(isParallel == 1)
+
+    int salt = clock();
+    printf("%d", salt);
+
+#pragma omp parallel for private(sumOfSquaresOfVectorValues) firstprivate(sqrRadius, radius, numberDimensions, pointCount) reduction(+:numberOfPointsInside[:numberDimensions]) if(isParallel == 1) 
     for (int i = 0; i < pointCount; i++) {
-        unsigned int seed = omp_get_thread_num();
         sumOfSquaresOfVectorValues = 0;        
+        unsigned int seed = 0;
         for (int j = 0; j < numberDimensions; j++) {
-            sumOfSquaresOfVectorValues += sqr(2 * radius * ( ( ((double) rand_r(&seed)) / RAND_MAX) - 0.5 ));
+//            seed = (omp_get_thread_num() + i * numberDimensions * THREADS + j * THREADS) * salt;
+            sumOfSquaresOfVectorValues += sqr(2 * radius * ( ( ((double) rand()) / RAND_MAX) - 0.5 ));
             if (sumOfSquaresOfVectorValues < sqrRadius) {
                 numberOfPointsInside[j]++;
             } else {
@@ -61,8 +66,11 @@ int main(int argc, char *argv[])
     int * result = calculateNumberOfRandomPointsInsideSphereForDifferentDimensions(POINT_COUNT, SPHERE_RADIUS, DIMENSION_COUNT, 1);
     ompTime = omp_get_wtime() - ompTime;
     printf("dimension_number:inside:total:fill\n");
+    int n = 1;
     for (int i = 0; i < DIMENSION_COUNT; i++) {
-        printf("%d:%d:%d:%f\n", i + 1, result[i], POINT_COUNT, ((float) result[i]) / POINT_COUNT);
+        n *= 2;
+        printf("%d:%d:%d:%f\n", i + 1, result[i], POINT_COUNT, ((float) result[i] / POINT_COUNT) * n);
+
     } 
     antiOmpTime = clock();
 
@@ -70,8 +78,10 @@ int main(int argc, char *argv[])
 
     antiOmpTime = (clock() - antiOmpTime) / CLOCKS_PER_SEC;
     printf("dimension_number:inside:total:fill\n");
+    n = 1;
     for (int i = 0; i < DIMENSION_COUNT; i++) {
-        printf("%d:%d:%d:%f\n", i + 1, result[i], POINT_COUNT, ((float) result[i]) / POINT_COUNT);
+        n *= 2;
+        printf("%d:%d:%d:%f\n", i + 1, result[i], POINT_COUNT, ((float) result[i] / POINT_COUNT) * n);
     }
 
     
